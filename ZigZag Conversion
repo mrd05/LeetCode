@@ -1,0 +1,30 @@
+class Solution {
+    public String convert(String s, int numRows) {
+        if(s.isEmpty() || numRows==0 || numRows==1)
+            return s;
+        String str = "";
+        int n = numRows*2 - 2;
+        for(int k = 0; k < s.length(); k += n)
+                str = str + s.charAt(k);
+        int m = n - 2;
+        boolean flag = true;
+        for(int i = 1; i < numRows - 1; i++)
+        {
+            flag = true;
+            for(int k = i; k < s.length(); )
+            {
+                str = str + s.charAt(k);
+                if(flag)
+                    k += m;
+                else
+                    k += n - m;
+                flag = !flag;
+            }
+            m -= 2;
+        }
+        n = numRows*2 - 2;
+        for(int k = numRows - 1; k < s.length(); k += n)
+                str = str + s.charAt(k);
+        return str;
+    }
+}
