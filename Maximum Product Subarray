@@ -1,0 +1,38 @@
+class Solution {
+    public int maxProduct(int[] arr) {
+        int max = Integer.MIN_VALUE;
+            int poscur = 0;
+            int negcur = 0;
+        int n=arr.length;
+            for (int j = 0; j < n; j++) {
+
+                if(arr[j]==0)
+                {
+                    poscur=0;
+                    negcur=0;
+
+                }
+                else if(arr[j]>0)
+                {
+                    if(poscur==0)
+                        poscur=1;
+                    poscur=Math.max(arr[j],poscur*arr[j]);
+                    if(negcur==0)
+                        negcur=1;
+                    negcur=Math.min(arr[j],negcur*arr[j]);
+                }
+                else{
+                    if(negcur==0)
+                        negcur=1;
+                    if(poscur==0)
+                        poscur=1;
+                    int tem=poscur;
+                    poscur=Math.max(arr[j],negcur*arr[j]);
+                    negcur=Math.min(arr[j],tem*arr[j]);
+                }      
+
+                max=Math.max(max, poscur);
+            }
+            return max;
+    }
+}
