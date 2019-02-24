@@ -1,0 +1,15 @@
+class Solution {
+    public int singleNumber(int[] nums) {
+        int counter1 = 0;
+        int counter2 = 0;
+        int mask = 0;
+        for (int num : nums) {
+            counter2 ^= counter1 & num;
+            counter1 ^= num;
+            mask = ~(counter1 & counter2);
+            counter1 &= mask;
+            counter2 &= mask;
+        }
+        return counter1;
+    }
+}
