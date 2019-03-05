@@ -1,0 +1,29 @@
+class Solution {
+    public String largestNumber(int[] nums) {
+        String str="";
+        List<node> list = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++)
+            list.add(new node(nums[i]+""));
+        Collections.sort(list);
+        for (node no : list)
+            str=str+no.data;
+        if(str.matches("0*"))
+            return "0";
+        return str;
+    }
+    
+    public static class node implements Comparable<node> {
+		String data;
+
+		public node(String d) {
+			this.data = d;
+		}
+
+		public int compareTo(node obj) {
+			String s1 = this.data + obj.data;
+			String s2 = obj.data + this.data;
+			return s2.compareTo(s1);
+		}
+	}
+    
+}
