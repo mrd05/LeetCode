@@ -22,3 +22,28 @@ class Solution {
         return list;
     }
 }
+
+
+class Solution2 {
+    public List<List<String>> groupAnagrams(String[] strs) {
+
+        Map<String,List<String>> map=new HashMap<>();
+        for(String s:strs)
+        {
+            char ch[]=s.toCharArray();
+            int arr[]=new int[26];
+            for(char c:ch)
+                arr[c-'a']++;
+            StringBuilder sb=new StringBuilder();
+            for(int a:arr)
+                sb.append('#').append(a);
+            
+            String so=sb.toString();
+            if(!map.containsKey(so))
+               map.put(so,new ArrayList<>());
+            map.get(so).add(s);
+        }
+        
+        return new ArrayList(map.values());
+    }
+}
