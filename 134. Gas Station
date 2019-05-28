@@ -1,0 +1,32 @@
+class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        if(gas.length==1)
+            return gas[0]>=cost[0]? 0:-1;
+        
+        int front=0,rear=1,pet=gas[0]-cost[0];
+        boolean flag=false;
+        while(front!=rear)
+        {
+            while(pet<0 && front!=rear)
+            {
+                pet-=gas[front]-cost[front];
+                front=(front+1)%gas.length;
+                
+                if(front==0)
+                {
+                    flag=true;
+                    break;
+                }    
+            }
+            if(flag)
+                break;
+            pet+=gas[rear]-cost[rear];
+            rear=(rear+1)%gas.length;
+
+        }
+        if(flag || pet<0)
+            return -1;
+        else
+            return front;
+    }
+}
