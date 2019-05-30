@@ -1,0 +1,83 @@
+class Solution {
+    
+    static int r;
+	static int c;
+
+	static class Node {
+		int x, y;
+
+		Node(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+	}
+    
+    public int orangesRotting(int[][] grid) {
+        r = grid.length;
+		c = grid[0].length;
+        
+        if(r==0 || c==0)
+            return 0;
+        
+        Queue<Node> q = new LinkedList<>();
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                if (grid[i][j] == 2)
+                    q.add(new Node(i, j));
+            }
+        }
+        Queue<Node> rq = null;
+        Node n;
+        boolean flag;
+        int res = 0;
+        while (!q.isEmpty()) {
+            rq = new LinkedList<>();
+            flag = false;
+            while (!q.isEmpty()) {
+                n = q.poll();
+                if (isValid(n.x, n.y + 1) && grid[n.x][n.y + 1] == 1) {
+                    grid[n.x][n.y + 1] = 2;
+                    flag = true;
+                    rq.add(new Node(n.x, n.y + 1));
+                }
+                if (isValid(n.x, n.y - 1) && grid[n.x][n.y - 1] == 1) {
+                    grid[n.x][n.y - 1] = 2;
+                    flag = true;
+                    rq.add(new Node(n.x, n.y - 1));
+                }
+                if (isValid(n.x + 1, n.y) && grid[n.x + 1][n.y] == 1) {
+                    grid[n.x + 1][n.y] = 2;
+                    flag = true;
+                    rq.add(new Node(n.x + 1, n.y));
+                }
+                if (isValid(n.x - 1, n.y) && grid[n.x - 1][n.y] == 1) {
+                    grid[n.x - 1][n.y] = 2;
+                    flag = true;
+                    rq.add(new Node(n.x - 1, n.y));
+                }
+            }
+            if (flag)
+                res++;
+            q = rq;
+        }
+        flag = true;
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                if (grid[i][j] == 1) {
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        if (flag)
+            return res;
+        else
+            return -1;
+    }
+    
+    static boolean isValid(int x, int y) {
+		if (x >= 0 && x < r && y >= 0 && y < c)
+			return true;
+		return false;
+	}
+}
