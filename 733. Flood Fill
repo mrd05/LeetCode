@@ -1,0 +1,23 @@
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
+        
+		int a=image[sr][sc];
+        if(a!=newColor)
+            image=fill(image,sr,sc,a,newColor);
+        return image;
+    }
+    
+    public static int[][] fill(int[][] arr, int x, int y, int a, int k) {
+		if (x < 0 || x >= arr.length || y < 0 || y >= arr[0].length)
+			return arr;
+		if (arr[x][y] == a) {
+			arr[x][y] = k;
+			arr = fill(arr, x - 1, y, a, k);
+			arr = fill(arr, x + 1, y, a, k);
+			arr = fill(arr, x, y - 1, a, k);
+			arr = fill(arr, x, y + 1, a, k);
+		}
+
+		return arr;
+	}
+}
