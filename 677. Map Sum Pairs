@@ -1,0 +1,47 @@
+class MapSum {
+
+    Map<String,Integer> map;
+    Trie root;
+    /** Initialize your data structure here. */
+    public MapSum() {
+        map=new HashMap<>();
+        root=new Trie();
+    }
+    
+    public void insert(String key, int val) {
+        int d=val-map.getOrDefault(key,0);
+        map.put(key,val);
+        Trie t=root;
+        for(char c:key.toCharArray())
+        {
+            if(!t.child.containsKey(c))
+                t.child.put(c,new Trie());
+            t=t.child.get(c);
+            t.val+=d;     
+        }
+    }
+    
+    public int sum(String prefix) {
+        Trie t=root;
+        for(char c:prefix.toCharArray())
+        {
+            t=t.child.get(c);
+            if(t==null)
+                return 0;
+        }
+        return t.val;
+    }
+    
+    static class Trie
+    {
+        Map<Character,Trie> child=new HashMap<>();
+        int val;
+    }
+}
+
+/**
+ * Your MapSum object will be instantiated and called as such:
+ * MapSum obj = new MapSum();
+ * obj.insert(key,val);
+ * int param_2 = obj.sum(prefix);
+ */
