@@ -1,0 +1,37 @@
+class Solution {
+    public List<Integer> topKFrequent(int[] nums, int k) {
+        List<Integer> list=new ArrayList<>();
+        if(nums==null || nums.length==0)
+            return list;
+        
+        Map<Integer,Integer> map=new HashMap<>();
+        for(int a:nums)
+            map.put(a,map.getOrDefault(a,0)+1);
+        
+        PriorityQueue<Integer> pq=new PriorityQueue<>(new Comp(map));
+        for(int a:map.keySet())
+        {
+            pq.add(a);
+            if(pq.size()>k)
+                pq.poll();
+        }
+        while(!pq.isEmpty())
+            list.add(pq.poll());
+        return list;
+    }
+    
+    static class Comp implements Comparator<Integer>
+    {
+        Map<Integer,Integer> map;
+        
+        Comp(Map<Integer,Integer> map)
+        {
+            this.map=map;
+        }
+        
+        public int compare(Integer a,Integer b)
+        {
+            return map.get(a).compareTo(map.get(b));
+        }    
+    }
+}
