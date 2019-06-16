@@ -1,0 +1,58 @@
+class Solution {
+    
+    public boolean canJump(int[] nums) {
+
+		if (nums.length == 0 || nums.length==1)
+			return true;
+
+        if(nums[0]==0)
+            return false;
+
+		int maxReach = nums[0];
+		int step = nums[0];
+		int jump = 1;
+        int n=nums.length;
+		for (int i = 1; i < n; i++) {
+			if (i == n - 1)
+				return true;
+
+			maxReach = Math.max(maxReach, i + nums[i]);
+
+			step--;
+
+			if (step == 0) {
+				jump++;
+
+				if (i >= maxReach)
+					return false;
+
+				step = maxReach - i;
+			}
+		}
+		return false;
+        
+    }
+    
+    //Using dp O(N^2)
+    public boolean canJump1(int[] nums) {
+        if(nums.length==0)
+            return true;
+        if(nums[0]==0 && nums.length==1)
+            return true;
+        if(nums[0]==0)
+            return false;
+        int n=nums.length;
+        int jump[] = new int[n];
+		jump[0] = 0;
+		for (int i = 1; i < n; i++) {
+			jump[i] = Integer.MAX_VALUE;
+			for (int j = 0; j < i; j++) {
+				if (jump[j] != Integer.MAX_VALUE && i <= j + nums[j]) {
+					jump[i] = Math.min(jump[i], 1 + jump[j]);
+					break;
+				}
+			}
+		}
+		return jump[n - 1]==Integer.MAX_VALUE? false:true;
+    }
+}
