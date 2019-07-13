@@ -1,0 +1,75 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Codec {
+
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        if(root==null)
+            return "#";
+        
+        StringBuilder sb=new StringBuilder();
+        Queue<TreeNode> q=new LinkedList<>();
+        q.add(root);
+        
+        while(!q.isEmpty())
+        {
+            TreeNode n=q.poll();
+            if(n==null)
+                sb.append('#').append(' ');
+            else
+            {
+                sb.append(n.val).append(' ');
+                q.add(n.left);
+                q.add(n.right);
+            }
+        }
+        System.out.println(sb.substring(0,sb.length()-1).toString());
+        return sb.substring(0,sb.length()-1).toString();
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        
+        String str[]=data.split(" ");
+        if(str[0]=="#")
+            return null;
+        
+        Queue<TreeNode> q=new LinkedList<>();
+        TreeNode head=new TreeNode(Integer.parseInt(str[0]));
+        q.add(head);
+        int i=1;
+        while(!q.isEmpty())
+        {
+            TreeNode n=q.poll();
+            if(n!=null)
+            {
+                TreeNode l=null;
+                if(!str[i].equals("#"))
+                    l=new TreeNode(Integer.parseInt(str[i]));
+                i++;
+                n.left=l;
+                q.add(l);
+                
+                TreeNode r=null;
+                if(!str[i].equals("#"))
+                    r=new TreeNode(Integer.parseInt(str[i]));
+                i++;
+                n.right=r;
+                q.add(r);
+            }
+        }
+        return head;
+    }
+    
+}
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec = new Codec();
+// codec.deserialize(codec.serialize(root));
