@@ -1,0 +1,70 @@
+public static class Solution2 {
+
+        public boolean isBalanced(TreeNode root) {
+            return getH(root) != -1;
+        }
+
+        private int getH(TreeNode root) {
+            if (root == null) {
+                return 0;
+            }
+            int leftH = getH(root.left);
+            if (leftH == -1) {
+                return -1;
+            }
+            int rightH = getH(root.right);
+            if (rightH == -1) {
+                return -1;
+            }
+            if (Math.abs(leftH - rightH) > 1) {
+                return -1;
+            }
+            return Math.max(leftH, rightH) + 1;
+        }
+    }
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    
+    static class Height
+    {
+        int h;
+    }
+    
+    public boolean isBalanced(TreeNode root) {
+        if(root==null)
+            return true;
+        
+        Height ht=new Height();
+        return checkBalance(root,ht);
+    }
+    
+    static boolean checkBalance(TreeNode n,Height ht)
+    {
+        if(n==null)
+        {
+            ht.h=0;
+            return true;
+        }
+        
+        Height lh=new Height();
+        Height rh=new Height();
+        boolean left=checkBalance(n.left,lh);
+        boolean right=checkBalance(n.right,rh);
+        
+        ht.h=Math.max(lh.h,rh.h)+1;
+        
+        if(Math.abs(lh.h-rh.h)<=1 && left && right)
+            return true;
+        
+        return false;
+    }
+}
